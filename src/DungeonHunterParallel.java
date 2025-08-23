@@ -47,3 +47,44 @@ public class DungeonHunterParallel {
             System.err.println("Error: " + e.getMessage());
             System.exit(1);
         }
+
+        xmin = -gateSize;
+        xmax = gateSize;
+        ymin = -gateSize;
+        ymax = gateSize;
+
+        dungeon = new DungeonMapParallel(xmin, xmax, ymin, ymax, randomSeed);
+
+        int dungeonRows = dungeon.getRows();
+        int dungeonColumns = dungeon.getColumns();
+
+        int[][] starts = new int[numSearches][2];
+        for (int i = 0; i < numSearches; i++) {
+            starts[i][0] = rand.nextInt(dungeonRows);
+            starts[i][1] = rand.nextInt(dungeonColumns);
+        }
+
+        int threads = Runtime.getRuntime().availableProcessors();
+        Thread[] workers = new Thread[threads];
+        HuntParallel[] jobs = new HuntParallel[threads];
+
+        int chunk = (numSearches + threads - 1) / threads;
+
+        tick();
+        for (int t = 0; t < threads; t++) {
+            int from = t * chunk;
+            int to = Math.min(numSearches, from + chunk);
+            if (from >= to) {
+                workers[t] = null;
+                continue;
+            }
+            jobs[t] = new HuntParallel(from + 1, starts, from, to, dungeon);
+            workers[t] = new Thread(jobs[t], "hunter-" + t);
+            workers[t].start();
+        }
+        
+        for (int t = 0; t < threads; t++) {
+            if (workers[t] != null) workers[t].join();
+        }
+        tock();
+
