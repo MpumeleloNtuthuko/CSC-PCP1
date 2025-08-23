@@ -100,3 +100,22 @@ public class DungeonHunterParallel {
             }
         }
 
+        // === Output of the program below ===
+        System.out.printf("\t dungeon size: %d,\n", gateSize);
+        System.out.printf("\t rows: %d, columns: %d\n", dungeonRows, dungeonColumns);
+        System.out.printf("\t x: [%f, %f], y: [%f, %f]\n", xmin, xmax, ymin, ymax);
+        System.out.printf("\t Number searches: %d\n", numSearches);
+
+        System.out.printf("\n\t time: %d ms\n", endTime - startTime);
+        int tmp = dungeon.getGridPointsEvaluated();
+        System.out.printf("\tnumber dungeon grid points evaluated: %d  (%2.0f%s)\n",
+                          tmp, (tmp * 1.0 / (dungeonRows * dungeonColumns * 1.0)) * 100.0, "%");
+
+        System.out.printf("Dungeon Master (mana %d) found at:  ", max);
+        System.out.printf("x=%.1f y=%.1f\n\n",
+                          dungeon.getXcoord(finderRow), dungeon.getYcoord(finderCol));
+
+        dungeon.visualisePowerMap("visualiseSearch.png", false);
+        dungeon.visualisePowerMap("visualiseSearchPath.png", true);
+    }
+}
