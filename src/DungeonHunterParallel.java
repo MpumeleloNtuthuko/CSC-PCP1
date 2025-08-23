@@ -22,3 +22,28 @@ public class DungeonHunterParallel {
         int gateSize = 10;
         Random rand = new Random();
         int randomSeed = 0;
+
+        if (args.length != 3) {
+            System.out.println("Incorrect number of command line arguments provided.");
+            System.exit(0);
+        }
+
+        try {
+            gateSize = Integer.parseInt(args[0]);
+            if (gateSize <= 0) throw new IllegalArgumentException("Grid size must be greater than 0.");
+
+            numSearches = (int) (Double.parseDouble(args[1]) *
+                                 (gateSize * 2) * (gateSize * 2) *
+                                 DungeonMapParallel.RESOLUTION);
+
+            randomSeed = Integer.parseInt(args[2]);
+            if (randomSeed < 0) throw new IllegalArgumentException("Random seed must be non-negative.");
+            else if (randomSeed > 0) rand = new Random(randomSeed);
+
+        } catch (NumberFormatException e) {
+            System.err.println("Error: All arguments must be numeric.");
+            System.exit(1);
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error: " + e.getMessage());
+            System.exit(1);
+        }
