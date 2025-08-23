@@ -88,3 +88,15 @@ public class DungeonHunterParallel {
         }
         tock();
 
+        int max = Integer.MIN_VALUE;
+        int finderRow = -1, finderCol = -1;
+        for (int t = 0; t < threads; t++) {
+            if (jobs[t] == null) continue;
+            int localMax = jobs[t].getBestMana();
+            if (localMax > max) {
+                max = localMax;
+                finderRow = jobs[t].getBestRow();
+                finderCol = jobs[t].getBestCol();
+            }
+        }
+
