@@ -1,8 +1,13 @@
 /**
-* DungeonHunterParallel.java
-* This is a parallel driver for the Dungeon hunter PCP1 Assignment
-* It Mirrors the serial version, DungeonHunter.java but a parallel version
-*/
+ * DungeonHunterParallel.java
+ * This is a parallel driver for the Dungeon hunter PCP1 Assignment
+ * It Mirrors the serial version, DungeonHunter.java but a parallel version
+ * 
+ * Usage:
+ *   java DungeonHunterParallel <gridSize> <density> <randomSeed>
+ *
+ * M. Kuttel (2025) - adapted for parallel assignment
+ */
 
 import java.util.Random;
 
@@ -119,3 +124,4 @@ public class DungeonHunterParallel {
         dungeon.visualisePowerMap("visualiseSearchPath.png", true);
     }
 }
+
